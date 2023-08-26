@@ -41,7 +41,6 @@ def startgame():
     field.pack(pady=15)
     field.bind('<Return>', comparefuncenter)
 
-    # make guess button
     guess_btn.pack(pady=15)
     guess_btn.config(state=NORMAL)
 
