@@ -1,38 +1,43 @@
 from tkinter import *
 from random import randint
 
+#function to disable the state of guess button and display the results.
 def showresult():
-    print("You won!")
-    print(f"You guessed in {count.get()} tries.")
     guess_btn.config(state=DISABLED)
-    win_text.config(text=f"You guessed in {count.get()} tries. You won!")
+    win_text.config(text=f"You guessed in {score.get()} tries. You won!")
 
 def showhelp():
     help_text.config(text="Hello user! In this game, you will be asked to guess a number using trial and error. Hints will be provided at every guess.", font='Arial 9', wraplength=350)
 
-#function to compare numbers
+#two same functions to compare numbers and provide hints.
+#Function below is triggered when enter key is used.
 def comparefuncenter(event):
-    count.set(count.get() + 1)
-    print(value.get())
+    score.set(score.get() + 1)
     if var.get() == value.get():
         showresult()
     elif var.get() - value.get() <= 3 and var.get() - value.get() >= -3:
         help_text.config(text="Your guess is almost right.", font='Arial 9', wraplength=350)
     else:
         help_text.config(text="Your guess is very far from the generated number.", font='Arial 9', wraplength=350)
+
+#Function below is triggered when guess button is clicked.
 def comparefunc():
-    count.set(count.get() + 1)
-    print(value.get())
+    score.set(score.get() + 1)
     if var.get() == value.get():
         showresult()
+
+#Function to start game
 def startgame():
+    #generate a random number
     value.set(randint(0,10))
+    
     help_text.config(text="")
     win_text.config(text="")
 
-    # make number input field
-    count.set(0)
-
+    #set intitial score to 0
+    score.set(0)
+    
+    #display guess button and input field.
     field.pack(pady=15)
     field.bind('<Return>', comparefuncenter)
 
@@ -40,8 +45,13 @@ def startgame():
     guess_btn.pack(pady=15)
     guess_btn.config(state=NORMAL)
 
+#intitialize gui window
 root = Tk()
+
+#set title
 root.title("Guessing Game")
+
+#set default opening and max size of gui window
 root.geometry("400x300")
 root.minsize(width=100, height=100)
 
@@ -58,20 +68,20 @@ help_btn = Button(button_frame, fg='black', text='Instructions', command=showhel
 start_btn.pack(side="left", padx=5)
 help_btn.pack(side="left", padx=5)
 
+#Text to display instructions and hints.
 help_text = Label(root, fg='black', text='')
 help_text.pack(side='top', padx=25)
 
+#text to display final result.
 win_text = Label(root, fg='black', text='')
 win_text.pack(side='bottom', padx=25)
 
-# Place the input field and guess_btn side by side in the next line using pack
-input_frame = Frame(root)
-input_frame.pack(side="top", fill="both", expand=True)
-
+#variables for score, random number and input number.
 value = IntVar()
 var = IntVar()
-count = IntVar()
+score = IntVar()
 
+#input field and guess button
 field = Entry(root, textvariable=var)
 guess_btn = Button(fg='red', text='Guess!', command=comparefunc)
 
